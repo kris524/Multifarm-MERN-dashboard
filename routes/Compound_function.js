@@ -96,4 +96,4 @@ async function Calculate_APY() {
 }
 
 
-// module.exports = Compound_APY()
+module.exports = Calculate_APY()
