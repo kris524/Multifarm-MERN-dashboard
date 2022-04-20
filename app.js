@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const http = require("http")
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const Compound_supply_APY_value = require('./routes/Compound_function')
 
 const PostSchema = require('./models/Post');
 
@@ -16,7 +17,7 @@ app.use((req, res, next) => {
 
     PostSchema.create({
         date: req.date,
-        datapoint: req.datapoint
+        datapoint: Compound_supply_APY_value
     });
 
 })
