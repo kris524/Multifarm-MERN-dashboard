@@ -9,8 +9,32 @@ const app = express();
 const server = http.createServer
 require('dotenv/config')
 //Middleware 
-app.use(cors())
+app.use((req, res, next) => {
 
+    PostSchema.create({
+        date: req.date,
+        datapoint: Compound_supply_APY_value
+    });
+
+})
+  
+app.use((req, res, next) => {
+    let requestTime = Date.now();
+    res.on('finish', () => {
+        if (req.path === '/analytics') {
+            return;
+        }
+
+        RequestLog.create({
+            url: req.path,
+            method: req.method,
+            responseTime: (Date.now() - requestTime) / 1000, // convert to seconds
+            day: moment(requestTime).format("dddd"),
+            hour: moment(requestTime).hour()
+        });
+    });
+    next();
+});
 app.use(bodyParser.json())
 
 const postsRoute = require('./routes/posts')
