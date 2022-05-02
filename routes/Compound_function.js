@@ -1,4 +1,5 @@
-
+// import Compound from '@compound-finance/compound-js';// const Compound = new Compound(window.ethereum)
+const Compound = require('@compound-finance/compound-js');
 const provider = 'https://mainnet.infura.io/v3/114f1662f8744eb7ab048928673b60fb' //'https://mainnet.infura.io/v3/' + process.env.infuraApiKey;
 
 const cTokenToGetCompApy = Compound.cUSDC; // Pick an asset
@@ -89,10 +90,10 @@ async function Calculate_APY() {
   const compSupplyApy = 100 * (Math.pow((1 + (compPrice * compPerDaySupply / (totalSupply * assetPrice))), 365) - 1);
   const compBorrowApy = 100 * (Math.pow((1 + (compPrice * compPerDayBorrow / (totalBorrows * assetPrice))), 365) - 1);
 
-  // console.log('COMP Supply APY %:', compSupplyApy);
-  // console.log('COMP Borrow APY %:', compBorrowApy);
-  return compSupplyApy
+  console.log('COMP Supply APY %:', compSupplyApy);
+  console.log('COMP Borrow APY %:', compBorrowApy);
+  // return compSupplyApy
 }
 
 
-module.exports = Compound_APY()
+module.exports = Calculate_APY()

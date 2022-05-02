@@ -3,10 +3,14 @@ const mongoose = require('mongoose')
 const http = require("http")
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const socketio = require("socket.io")
-const app = express();
+const Compound_supply_APY_value = require('./routes/Compound_function')
 
-const server = http.createServer
+const PostSchema = require('./models/Post');
+
+const app = express();
+mongoose.connect(process.env.DB_CONNECTION, () => console.log('connected to db'))
+
+
 require('dotenv/config')
 //Middleware 
 app.use((req, res, next) => {
@@ -17,7 +21,7 @@ app.use((req, res, next) => {
     });
 
 })
-  
+
 app.use((req, res, next) => {
     let requestTime = Date.now();
     res.on('finish', () => {
@@ -35,9 +39,12 @@ app.use((req, res, next) => {
     });
     next();
 });
+
+
 app.use(bodyParser.json())
 
-const postsRoute = require('./routes/posts')
+const postsRoute = require('./routes/posts');
+const req = require('express/lib/request');
 app.use('/posts', postsRoute)
 
 
@@ -46,11 +53,6 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
     // res.sendFile(__dirname + "/public/css/style.css");
 });
-
-
-//connect to the db
-
-mongoose.connect(process.env.DB_CONNECTION, () => console.log('connected to db'))
 
 
 app.listen(3000);
